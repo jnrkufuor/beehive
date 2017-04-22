@@ -225,6 +225,8 @@ jQuery(document).ready(function ($) {
     $('.addInput5').addClass('noShow');
     $('.addInput6').addClass('noShow');
     $('.addInput7').addClass('noShow');
+    $('.addInput8').addClass('noShow');
+    $('.addInput9').addClass('noShow');
     $('.add').removeClass('addRoom');
     $('.add').removeClass('addCourse');
     $('.add').addClass('addLec');
@@ -293,6 +295,7 @@ jQuery(document).ready(function ($) {
     $('.addInput5').removeClass('noShow');
     $('.addInput6').removeClass('noShow');
     $('.addInput7').removeClass('noShow');
+
     $('.add').removeClass('addRoom');
     $('.add').addClass('addCourse');
     $('.add').removeClass('addLec');
@@ -351,6 +354,7 @@ jQuery(document).ready(function ($) {
     $('.addInput5').addClass('noShow');
     $('.addInput6').addClass('noShow');
     $('.addInput7').addClass('noShow');
+ 
     $('.add').addClass('addRoom');
     $('.add').removeClass('addCourse');
     $('.add').removeClass('addLec');
@@ -482,7 +486,7 @@ $(document).on('click', ".addCourse", function() {
   var room=$('.addInput7').val();
   if(courseNo==""||courseName=="")
   {
-    $('<p class="prompt" style="color:#9A9A9A!important;">FILL ALL FIELDS</p>').insertAfter(".addInput7");
+    $('<p class="prompt" style="color:#9A9A9A!important;">FILL ALL FIELDS</p>').insertAfter("#fileLabel");
     $(".prompt").delay(2000).fadeOut();
     return;
   }
@@ -496,12 +500,12 @@ $(document).on('click', ".addCourse", function() {
     success: function (response) {
       if(response.message=="false")
       {
-        $('<p class="prompt" >EXISTS</p>').insertAfter(".addInput7");
+        $('<p class="prompt" >EXISTS</p>').insertAfter("#fileLabel");
         $(".prompt").delay(2000).fadeOut();
       }
       else
       {
-        $('<p class="prompt">Added</p>').insertAfter(".addInput7");
+        $('<p class="prompt">Added</p>').insertAfter("#fileLabel");
         $(".prompt").delay(2000).fadeOut();
         $('.addInput').val("");
         $('.addInput2').val("");
@@ -518,7 +522,7 @@ $(document).on('click', ".addLec", function() {
   var inavailable =$('.addInput3').val();
   if(lec==""||department=="")
   {
-    $('<p class="prompt" style="color:#9A9A9A!important;">FILL ALL FIELDS</p>').insertAfter(".addInput3");
+    $('<p class="prompt" style="color:#9A9A9A!important;">FILL ALL FIELDS</p>').insertAfter("#fileLabel");
     $(".prompt").delay(2000).fadeOut();
     return;
   }
@@ -532,12 +536,12 @@ $(document).on('click', ".addLec", function() {
     success: function (response) {
       if(response.message=="false")
       {
-        $('<p class="prompt" >FAILED</p>').insertAfter(".addInput3");
+        $('<p class="prompt" >FAILED</p>').insertAfter("#fileLabel");
         $(".prompt").delay(2000).fadeOut();
       }
       else
       {
-        $('<p class="prompt">Added</p>').insertAfter(".addInput3");
+        $('<p class="prompt">Added</p>').insertAfter("#fileLabel");
         $(".prompt").delay(2000).fadeOut();
         $('.addInput').val("");
         $('.addInput2').val("");
@@ -813,10 +817,11 @@ function getRoom()
   });
 }
 
-$(document).on('click', ".schBtn", function() {
+$(document).on('click', ".schAdd", function() {
 
-  $(".schInfo").fadeOut();
+  $(".schInfo").attr("style","display:none;");
   $(".schloader").fadeIn();
+  $(".autoPanel").attr("style","display:none;");
   $.ajax({
     type: 'POST',
     url: 'ajaxAdmin/projectAjax.php?cmd=19&username='+ sessionStorage.user+'&int='+sessionStorage.interval+'&day='+sessionStorage.dayBegin+'&brk='+sessionStorage.break,
@@ -832,7 +837,8 @@ $(document).on('click', ".schBtn", function() {
       else
       {
         $(".schloader").fadeOut();
-        
+        localStorage.setItem("schedule", JSON.stringify(response));
+        window.location.href="schedule.html";
       }
     },
   });         

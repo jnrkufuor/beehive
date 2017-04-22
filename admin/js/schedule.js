@@ -25,7 +25,8 @@ dp.onTimeRangeSelected = function (args) {
 };
 
 dp.onEventClick = function(args) {
-    //    alert("clicked: " + args.e.id());
+    $(".infodiv").html('<div class="infobox">'+args.e.text() +'</div>');
+    $(".infobox").delay(2000).fadeOut();
 };
 dp.onEventMoved = function(args) {
     alert("clicked: " + args.e.start());
@@ -190,25 +191,7 @@ $(document).on('click','.update',function(){
         },
     });
 });
-window.onload = function() {
-    updateTable();
-    getRoom();
-    getCourse();
-    getLec();
-    if(sessionStorage.break=="null"||!sessionStorage.dayBegin=="null"||!sessionStorage.interval=="null"){
-        $(".add").html('add');
-        return;
-    }
-    else{
-        $(".add").html('update');
-        $(".add").addClass('update');
-    }
-    $('#break').val( sessionStorage.break);
-    $('#dayBegin').val(sessionStorage.dayBegin);
-    $('#slotLength').val(sessionStorage.interval);
-    populate("#slot");
 
-};
 
 /**
  * [[Description]]
@@ -372,3 +355,97 @@ function updateTable()
         },
     });
 }
+
+window.onload = function() {
+    updateTable();
+    getRoom();
+    getCourse();
+    getLec();
+    console.log(dp.events);
+    if(sessionStorage.break=="null"||!sessionStorage.dayBegin=="null"||!sessionStorage.interval=="null"){
+        $(".add").html('add');
+        return;
+    }
+    else{
+        $(".add").html('update');
+        $(".add").addClass('update');
+    }
+    $('#break').val( sessionStorage.break);
+    $('#dayBegin').val(sessionStorage.dayBegin);
+    $('#slotLength').val(sessionStorage.interval);
+    populate("#slot");
+    if( localStorage.getItem("schedule")!=null)
+    { 
+        var interval = sessionStorage.interval;
+        var response = JSON.parse(localStorage.getItem("schedule"));
+        console.log(response[0]);
+        for(var i=0; i<response.length;i++)
+        { 
+            if(response[i]["meetingTime"]["day"]=="MW"){
+                var sDate =new DayPilot.Date("2017-02-20T"+response[i]["meetingTime"]["slot"]+":00");
+                var eDate =new DayPilot.Date("2017-02-20T"+response[i]["meetingTime"]["slot"]+":00").addMinutes(interval);
+                var ssDate =new DayPilot.Date("2017-02-22T"+response[i]["meetingTime"]["slot"]+":00");
+                var eeDate =new DayPilot.Date("2017-02-22T"+response[i]["meetingTime"]["slot"]+":00").addMinutes(interval);
+                var name=response[i]["course"]["courseName"]+"<br>"+response[i]["room"]["name"]+"<br>"+sDate.toString().substring(11, 16)+"-"+eDate.toString().substring(11, 16);
+                //add Monday
+                var e = new DayPilot.Event({
+                    start: sDate,
+                    end: eDate,
+                    id: "1",
+                    text: name
+                });
+                dp.events.add(e);
+                //add Wednesday
+                var name=response[i]["course"]["courseName"]+"<br>"+response[i]["room"]["name"]+"<br>"+ssDate.toString().substring(11, 16)+"-"+eeDate.toString().substring(11, 16);
+                var d = new DayPilot.Event({
+                    start: ssDate,
+                    end: eeDate,
+                    id: "1",
+                    text: name
+                });
+                dp.events.add(d);
+            }
+
+            else if(response[i]["meetingTime"]["day"]=="TH"){
+                var sDate =new DayPilot.Date("2017-02-21T"+response[i]["meetingTime"]["slot"]+":00");
+                var eDate =new DayPilot.Date("2017-02-21T"+response[i]["meetingTime"]["slot"]+":00").addMinutes(interval);
+                var ssDate =new DayPilot.Date("2017-02-23T"+response[i]["meetingTime"]["slot"]+":00");
+                var eeDate =new DayPilot.Date("2017-02-23T"+response[i]["meetingTime"]["slot"]+":00").addMinutes(interval);
+                var name=response[i]["course"]["courseName"]+"<br>"+response[i]["room"]["name"]+"<br>"+sDate.toString().substring(11, 16)+"-"+eDate.toString().substring(11, 16);
+                //add Tuesday
+                var e = new DayPilot.Event({
+                    start: sDate,
+                    end: eDate,
+                    id: "1",
+                    text: name
+                });
+                dp.events.add(e);
+                //add Thursday
+                var name=response[i]["course"]["courseName"]+"<br>"+response[i]["room"]["name"]+"<br>"+ssDate.toString().substring(11, 16)+"-"+eeDate.toString().substring(11, 16);
+                var d = new DayPilot.Event({
+                    start: ssDate,
+                    end: eeDate,
+                    id: "1",
+                    text: name
+                });
+                dp.events.add(d);
+            }
+            else
+            {
+
+                var sDate =new DayPilot.Date("2017-02-24T"+response[i]["meetingTime"]["slot"]+":00");
+                var eDate =new DayPilot.Date("2017-02-24T"+response[i]["meetingTime"]["slot"]+":00").addMinutes(interval);
+                var name=response[i]["course"]["courseName"]+"<br>"+response[i]["room"]["name"]+"<br>"+sDate.toString().substring(11, 16)+"-"+eDate.toString().substring(11, 16);
+                //add Friday
+                var e = new DayPilot.Event({
+                    start: sDate,
+                    end: eDate,
+                    id: "1",
+                    text: name
+                });
+                dp.events.add(e);
+
+            }
+        }
+    }
+};   

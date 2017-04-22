@@ -208,12 +208,12 @@ class data {
   $count =1;
   $day = array("MW","TH","F");
   for ($j = 0 ; $j < count($day);$j++){
-   for( $i = $index; $i <= 1200; $i += $interval){
+   for( $i = $index; $i <= 1140; $i += $interval){
     $hours = floor($i / 60);
 
     $minutes = $i % 60;
     if ($minutes < 10){
-     $minutes = '00' + $minutes; 
+     $minutes = '0'.$minutes; 
     }
 
     $hours = $hours % 24;
@@ -221,9 +221,9 @@ class data {
      $hours = 12;
     }
     if ($hours < 10){
-     $hours = '0' + $hours; 
+     $hours = '0'.$hours; 
     }
-    $slot = ($hours.":".$minutes." o'clock");
+    $slot = ($hours.":".$minutes);
     $mtime = new meetingTime($slot,$day[$j]);
     array_push($this->meetingTime,$mtime);
     $i+=$brk;

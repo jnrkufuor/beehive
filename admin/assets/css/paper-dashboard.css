@@ -74,6 +74,24 @@
 .schloader{
   display: none;
 }
+
+.schAdd
+{
+  font-size:18px;
+  cursor: pointer;
+  transition:border-bottom 5s;
+  -webkit-transition: border-bottom 5s;
+  transition:width 5s;
+  -webkit-transition: width 5s;
+}
+
+
+.schAdd:hover
+{
+  color: rgba(100,100, 100, 0.6);
+  border-bottom:1px solid rgba(100,100, 100, 0.6);
+  width:200px;
+}
 .schBtn
 {
   border-radius: 5px !important;
@@ -85,7 +103,7 @@
   border-color:  teal;
   text-transform: uppercase;
   font-weight: bolder;
-  width: 20%;
+  width: 50%;
   padding: 7px;
   cursor: pointer;
 }
@@ -1348,16 +1366,33 @@ hr {
   border-radius: 5px;
   vertical-align: middle!important;
 }
-.addInput,.addInput2,.addInput3,.addInput4,.addInput5,.addInput6,.addInput7{
+.addInput,.addInput2,.addInput3,.addInput4,.addInput5,.addInput6,.addInput7,.addInput8,.addInput9{
   background:white!important;
   margin-bottom: 3px!important;
   display: inline !important;
-  width:300px!important;
+  width:250px!important;
   float: left!important;
   margin-right: 30px!important;
 }
+
+.infobox{
+  width:20%;
+  height: 85px;
+  text-align: center;
+  background-color: rgba(144, 144, 144, 0.25);
+  border:1px solid;
+  float:right;
+  padding: 5px;
+  border-color:#ddd;
+  border-radius: 5px;
+  position: absolute;
+  top:-165px;
+  left:76%;
+  z-index: 1000;
+}
 .noShow{
   display: none!important;
+  border-radius: 5px;
 }
 
 .prompt
@@ -3706,7 +3741,7 @@ textarea.form-control {
   }
 }
 
-.cssload-fond{
+.autoPanel{
   position:relative;
   margin: auto;
   background: white;
